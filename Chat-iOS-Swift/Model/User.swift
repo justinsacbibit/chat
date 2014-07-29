@@ -9,7 +9,7 @@
 import UIKit
 
 class User: NSObject {
-    var username: NSString?
-    var fullName: NSString?
+    var username: String?
+    var fullName: String?
     var numMessagesSent: NSNumber?
 }

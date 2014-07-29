@@ -120,7 +120,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
     }
     
     func chooseUsernameButtonPressed(sender: UIButton!) {
-        var controller = ChooseUsernameViewController()
+        var controller = ChooseUsernameViewController(style: UITableViewStyle.Grouped)
         controller.delegate = self
         self.presentViewController(UINavigationController(rootViewController: controller), animated: true, completion: nil)
     }
@@ -137,5 +137,24 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
     
     func logInButtonPressed(sender: UIButton!) {
         
+    }
+    
+    func chooseUsernameViewController(chooseUsernameViewController: ChooseUsernameViewController, didPickUsername username: String?) {
+        self.dismissViewControllerAnimated(true, completion: {() -> Void in
+            if (!username || username?.utf16count <= 0) {
+                return
+            }
+            
+            let controller = ChatViewController(style: UITableViewStyle.Grouped)
+            let user = User()
+            user.username = username
+            controller.user = user
+            // TODO: save user
+            self.presentViewController(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+            })
+    }
+    
+    func chooseUsernameViewControllerDidCancel(chooseUsernameViewController: ChooseUsernameViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		7036B4D519873944009D4BE8 /* ChooseUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036B4D419873944009D4BE8 /* ChooseUsernameViewController.swift */; };
 		7036B4D7198739EC009D4BE8 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036B4D6198739EC009D4BE8 /* ChatViewController.swift */; };
+		7036B4DA198745FB009D4BE8 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036B4D9198745FB009D4BE8 /* TextFieldCell.swift */; };
+		7036B4DC1987D48F009D4BE8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036B4DB1987D48F009D4BE8 /* Message.swift */; };
+		7036B4DE1987D5EB009D4BE8 /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036B4DD1987D5EB009D4BE8 /* TextInputView.swift */; };
 		70ABB42A198702B400F979AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70ABB429198702B400F979AB /* Images.xcassets */; };
 		70ABB436198702B400F979AB /* Chat_iOS_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABB435198702B400F979AB /* Chat_iOS_SwiftTests.swift */; };
 		70ABB4411987045F00F979AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABB4401987045F00F979AB /* AppDelegate.swift */; };
@@ -30,6 +33,9 @@
 /* Begin PBXFileReference section */
 		7036B4D419873944009D4BE8 /* ChooseUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseUsernameViewController.swift; path = Controllers/ChooseUsernameViewController.swift; sourceTree = "<group>"; };
 		7036B4D6198739EC009D4BE8 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Controllers/ChatViewController.swift; sourceTree = "<group>"; };
+		7036B4D9198745FB009D4BE8 /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextFieldCell.swift; path = Views/TextFieldCell.swift; sourceTree = "<group>"; };
+		7036B4DB1987D48F009D4BE8 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = Model/Message.swift; sourceTree = "<group>"; };
+		7036B4DD1987D5EB009D4BE8 /* TextInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputView.swift; path = Views/TextInputView.swift; sourceTree = "<group>"; };
 		70ABB41D198702B400F979AB /* Chat-iOS-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chat-iOS-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70ABB421198702B400F979AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70ABB429198702B400F979AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -60,6 +66,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7036B4D8198745E7009D4BE8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7036B4D9198745FB009D4BE8 /* TextFieldCell.swift */,
+				7036B4DD1987D5EB009D4BE8 /* TextInputView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		70ABB414198702B400F979AB = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +100,7 @@
 				70ABB4421987046500F979AB /* Controllers */,
 				70ABB4451987052800F979AB /* Model */,
 				70ABB44819870D2A00F979AB /* Utils */,
+				7036B4D8198745E7009D4BE8 /* Views */,
 				70ABB429198702B400F979AB /* Images.xcassets */,
 				70ABB420198702B400F979AB /* Supporting Files */,
 			);
@@ -137,6 +153,7 @@
 		70ABB4451987052800F979AB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7036B4DB1987D48F009D4BE8 /* Message.swift */,
 				70ABB4461987054B00F979AB /* User.swift */,
 			);
 			name = Model;
@@ -253,7 +270,10 @@
 				70ABB44A19870D4700F979AB /* FontUtil.swift in Sources */,
 				70ABB4471987054B00F979AB /* User.swift in Sources */,
 				7036B4D7198739EC009D4BE8 /* ChatViewController.swift in Sources */,
+				7036B4DC1987D48F009D4BE8 /* Message.swift in Sources */,
+				7036B4DA198745FB009D4BE8 /* TextFieldCell.swift in Sources */,
 				7036B4D519873944009D4BE8 /* ChooseUsernameViewController.swift in Sources */,
+				7036B4DE1987D5EB009D4BE8 /* TextInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
