@@ -11,14 +11,25 @@ import UIKit
 class ChatViewController: JSQMessagesViewController {
     var user: User?
     
-    var messages: Array<JSQMessageData> = []
-    var socket: SIOSocket?
+    private var messages: Array<JSQMessageData> = []
+    private var socket: SIOSocket?
+    private var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleLightGrayColor())
+    private var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleBlueColor())
+    private var avatars = [String: UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.user = User()
-        self.user?.username = "justintest"
+        var username = "justintest"
+        self.user?.username = username
+        
+        var image = JSQMessagesAvatarFactory.avatarWithUserInitials("JS",
+            backgroundColor: UIColor(white: CGFloat(0.85), alpha: 1),
+            textColor: UIColor(white: 0.6, alpha: 1),
+            font: UIFont.systemFontOfSize(14),
+            diameter: UInt(self.collectionView.collectionViewLayout.outgoingAvatarViewSize.width))
+        self.avatars[username] = image
         
         setupUI()
         var url = "http://localhost:8080"
@@ -61,7 +72,14 @@ class ChatViewController: JSQMessagesViewController {
     
     override func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
         var cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
-        cell.textView.backgroundColor = UIColor.greenColor()
+        
+        var message = self.messages[indexPath.item]
+        if message.sender() == self.sender() {
+            cell.textView.textColor = UIColor.blackColor()
+        } else {
+            cell.textView.textColor = UIColor.whiteColor()
+        }
+        
         return cell
     }
     
@@ -70,13 +88,29 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
-//        return nil
-        return JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.blueColor())
+        var message = self.messages[indexPath.item]
+        
+        if message.sender() == self.sender() {
+            return UIImageView(image: self.outgoingBubbleImageView.image, highlightedImage: self.outgoingBubbleImageView.highlightedImage)
+        }
+        
+        return UIImageView(image: self.incomingBubbleImageView.image, highlightedImage: self.incomingBubbleImageView.highlightedImage)
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
-        return nil
-//        return JSQMessagesAvatarFactory.avatarWithUserInitials("JJ", backgroundColor: UIColor.greenColor(), textColor: UIColor.blackColor(), font: FontUtil.helveticaNeueLightFont(10), diameter: 10)
+        var message = self.messages[indexPath.item]
+        if let avatarImage = self.avatars[message.sender()] {
+            return UIImageView(image: avatarImage)
+        }
+        
+        let nsstring = message.sender() as NSString
+        var avatarImage = JSQMessagesAvatarFactory.avatarWithUserInitials(nsstring.substringToIndex(1),
+            backgroundColor: UIColor(white: CGFloat(0.85), alpha: 1),
+            textColor: UIColor(white: 0.6, alpha: 1),
+            font: UIFont.systemFontOfSize(14),
+            diameter: UInt(self.collectionView.collectionViewLayout.outgoingAvatarViewSize.width))
+        self.avatars[message.sender()] = avatarImage
+        return UIImageView(image: avatarImage)
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
