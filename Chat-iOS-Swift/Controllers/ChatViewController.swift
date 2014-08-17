@@ -42,4 +42,6 @@ class ChatViewController: UITableViewController, TextInputViewDelegate {
     func textInputViewWillBeginEditing(textInputView: TextInputView) {
         textInputView.becomeFirstResponder()
     }
+    
+    
 }

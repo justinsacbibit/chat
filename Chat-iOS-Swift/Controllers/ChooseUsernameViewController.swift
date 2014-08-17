@@ -59,7 +59,7 @@ class ChooseUsernameViewController: UITableViewController {
     override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell: TextFieldCell? = tableView.dequeueReusableCellWithIdentifier(kTextFieldCellIdentifier) as? TextFieldCell
         
-        if (!cell) {
+        if cell == nil {
             cell = TextFieldCell(style: UITableViewCellStyle.Default, reuseIdentifier: kTextFieldCellIdentifier)
         }
         

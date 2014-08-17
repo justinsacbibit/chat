@@ -38,7 +38,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
         setupImageView()
         setupStartButton()
         setupCreditLabel()
-        if (user) {
+        if user != nil {
             setupLoggedInLabel()
             setupLogOutButton()
         } else {
@@ -51,7 +51,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
         titleLabel!.font = FontUtil.helveticaNeueUltraLightFont(40.0)
         titleLabel!.textAlignment = NSTextAlignment.Center
         titleLabel!.text = "chat"
-        view.addSubview(titleLabel)
+        view.addSubview(titleLabel!)
     }
     
     func setupImageView() {
@@ -61,16 +61,16 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
             imageView!.frame.size.width / 3.0,
             imageView!.frame.size.height / 3.0)
         imageView!.center = CGPoint(x: titleLabel!.center.x + 30.0, y: titleLabel!.center.y + 70.0)
-        view.insertSubview(imageView, belowSubview: titleLabel)
+        view.insertSubview(imageView!, belowSubview: titleLabel!)
     }
     
     func setupStartButton() {
-        if (self.user) {
+        if self.user != nil {
             startButton = createButtonWithYCoord(CGRectGetHeight(view.bounds) - 170, title: "enter chat", selector: "enterButtonPressed:")
         } else {
             startButton = createButtonWithYCoord(CGRectGetHeight(view.bounds) - 170, title: "choose username", selector: "chooseUsernameButtonPressed:")
         }
-        view.addSubview(startButton)
+        view.addSubview(startButton!)
     }
     
     func setupCreditLabel() {
@@ -78,7 +78,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
         creditLabel!.font = FontUtil.helveticaNeueLightFont(12.0)
         creditLabel!.textAlignment = NSTextAlignment.Center
         creditLabel!.text = "Created by Justin Sacbibit"
-        view.addSubview(creditLabel)
+        view.addSubview(creditLabel!)
     }
     
     func setupLoggedInLabel() {
@@ -86,7 +86,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
         loggedInLabel!.font = FontUtil.helveticaNeueLightFont(25.0)
         loggedInLabel!.textAlignment = NSTextAlignment.Center
         loggedInLabel!.text = String(format: "logged in as %@", user!.username!)
-        view.addSubview(loggedInLabel)
+        view.addSubview(loggedInLabel!)
     }
     
     func setupLogOutButton() {
@@ -140,8 +140,8 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
     }
     
     func chooseUsernameViewController(chooseUsernameViewController: ChooseUsernameViewController, didPickUsername username: String?) {
-        self.dismissViewControllerAnimated(true, completion: {() -> Void in
-            if (!username || username?.utf16count <= 0) {
+        self.dismissViewControllerAnimated(true) {
+            if username == nil || username!.utf16Count <= 0 {
                 return
             }
             
@@ -151,7 +151,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
             controller.user = user
             // TODO: save user
             self.presentViewController(UINavigationController(rootViewController: controller), animated: true, completion: nil)
-            })
+        }
     }
     
     func chooseUsernameViewControllerDidCancel(chooseUsernameViewController: ChooseUsernameViewController) {

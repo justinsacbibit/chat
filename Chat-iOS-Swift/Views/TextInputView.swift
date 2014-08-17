@@ -17,7 +17,11 @@ class TextInputView: UIView, UITextViewDelegate {
     
     var textView = UITextView()
     
-    init(frame: CGRect) {
+    required init(coder aDecoder: NSCoder!) {
+        fatalError("NSCoding not supported")
+    }
+    
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
         textView.delegate = self
