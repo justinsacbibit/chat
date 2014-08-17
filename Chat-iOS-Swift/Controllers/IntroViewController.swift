@@ -35,6 +35,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
             var user = User()
             user.username = username as? String
             var controller = ChatViewController()
+            controller.delegate = self
             controller.user = user
             var nav = UINavigationController(rootViewController: controller)
             self.presentViewController(nav, animated: true, completion: nil)
@@ -162,6 +163,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
             let user = User()
             user.username = username
             controller.user = user
+            controller.delegate = self
             NSUserDefaults.standardUserDefaults().setObject(username, forKey: "username")
             self.presentViewController(UINavigationController(rootViewController: controller), animated: true, completion: nil)
         }
@@ -172,8 +174,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
     }
     
     func chatViewControllerDidLogout(chatViewController: ChatViewController) {
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("username")
-        })
+        self.dismissViewControllerAnimated(true, completion: nil)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("username")
     }
 }
