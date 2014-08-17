@@ -21,6 +21,7 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
     private var socket: SIOSocket?
     private var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleLightGrayColor())
     private var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleBlueColor())
+    private var systemBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleGreenColor())
     private var avatars = [String: UIImage]()
     
     override func viewDidLoad() {
@@ -78,14 +79,23 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
             })
             
             socket.on("userJoined", executeBlock: { (response) -> Void in
-                if let json = response as? Dictionary<String, String> {
-                    var username = json["username"]!
-                    var numUsers = json["numUsers"]!
+                if let json = response as? Dictionary<String, AnyObject> {
+                    var username = json["username"] as AnyObject? as? String
+                    var numUsers = json["numUsers"] as AnyObject? as? NSNumber
                     
-                    var message = Message(body: NSString(format: "%@ has joined.", username), sender: "System")
+                    var message = Message(body: NSString(format: "%@ has joined.", username!), sender: "System")
                     self.messages.append(message)
                     
-                    message = Message(body: NSString(format: "Number of users online: %@", numUsers), sender: "System")
+                    self.finishReceivingMessage()
+                }
+            })
+            
+            socket.on("userLeft", executeBlock: { (response) -> Void in
+                if let json = response as? Dictionary<String, AnyObject> {
+                    var username = json["username"] as AnyObject? as? String
+                    var numUsers = json["numUsers"] as AnyObject? as? NSNumber
+                    
+                    var message = Message(body: NSString(format: "%@ has left.", username!), sender: "System")
                     self.messages.append(message)
                     
                     self.finishReceivingMessage()
@@ -138,6 +148,10 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         var message = self.messages[indexPath.item]
+        
+        if message.sender() == "System" {
+            return UIImageView(image: self.systemBubbleImageView.image, highlightedImage: self.systemBubbleImageView.highlightedImage)
+        }
         
         if message.sender() == self.sender() {
             return UIImageView(image: self.outgoingBubbleImageView.image, highlightedImage: self.outgoingBubbleImageView.highlightedImage)
