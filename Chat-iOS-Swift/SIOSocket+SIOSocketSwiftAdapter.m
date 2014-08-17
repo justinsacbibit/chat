@@ -17,7 +17,11 @@
 
 - (void)on:(NSString *)event executeBlock:(void (^)(id))function
 {
-    [self on:event do:function];
+    [self on:event do:^(id param) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            function(param);
+        });
+    }];
 }
 
 @end

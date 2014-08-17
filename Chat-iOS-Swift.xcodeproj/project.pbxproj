@@ -14,6 +14,7 @@
 		7036B4DC1987D48F009D4BE8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036B4DB1987D48F009D4BE8 /* Message.swift */; };
 		7091EB5F19A03B28007761FD /* chat-bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 7091EB5E19A03B28007761FD /* chat-bubble.png */; };
 		7091EB6319A03F55007761FD /* SIOSocket+SIOSocketSwiftAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7091EB6219A03F55007761FD /* SIOSocket+SIOSocketSwiftAdapter.m */; };
+		70A406DF19A13BCD00E393B1 /* SHIP.png in Resources */ = {isa = PBXBuildFile; fileRef = 70A406DE19A13BCD00E393B1 /* SHIP.png */; };
 		70ABB42A198702B400F979AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70ABB429198702B400F979AB /* Images.xcassets */; };
 		70ABB436198702B400F979AB /* Chat_iOS_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABB435198702B400F979AB /* Chat_iOS_SwiftTests.swift */; };
 		70ABB4411987045F00F979AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABB4401987045F00F979AB /* AppDelegate.swift */; };
@@ -43,6 +44,7 @@
 		7091EB5E19A03B28007761FD /* chat-bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chat-bubble.png"; path = "Images/chat-bubble.png"; sourceTree = "<group>"; };
 		7091EB6119A03F55007761FD /* SIOSocket+SIOSocketSwiftAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SIOSocket+SIOSocketSwiftAdapter.h"; sourceTree = "<group>"; };
 		7091EB6219A03F55007761FD /* SIOSocket+SIOSocketSwiftAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SIOSocket+SIOSocketSwiftAdapter.m"; sourceTree = "<group>"; };
+		70A406DE19A13BCD00E393B1 /* SHIP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SHIP.png; path = Images/SHIP.png; sourceTree = "<group>"; };
 		70ABB41D198702B400F979AB /* Chat-iOS-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chat-iOS-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70ABB421198702B400F979AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70ABB429198702B400F979AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -95,6 +97,15 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		70A406E019A13BD200E393B1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				7091EB5E19A03B28007761FD /* chat-bubble.png */,
+				70A406DE19A13BCD00E393B1 /* SHIP.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		70ABB414198702B400F979AB = {
 			isa = PBXGroup;
 			children = (
@@ -121,10 +132,10 @@
 			children = (
 				70ABB43F198703FF00F979AB /* AppDelegate */,
 				70ABB4421987046500F979AB /* Controllers */,
+				70A406E019A13BD200E393B1 /* Images */,
 				70ABB4451987052800F979AB /* Model */,
 				70ABB44819870D2A00F979AB /* Utils */,
 				7036B4D8198745E7009D4BE8 /* Views */,
-				7091EB5E19A03B28007761FD /* chat-bubble.png */,
 				70ABB429198702B400F979AB /* Images.xcassets */,
 				70ABB420198702B400F979AB /* Supporting Files */,
 				7091EB5C19A032AD007761FD /* Chat-iOS-Swift-Bridging-Header.h */,
@@ -278,6 +289,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A406DF19A13BCD00E393B1 /* SHIP.png in Resources */,
 				70ABB42A198702B400F979AB /* Images.xcassets in Resources */,
 				7091EB5F19A03B28007761FD /* chat-bubble.png in Resources */,
 			);

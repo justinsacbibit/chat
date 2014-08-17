@@ -35,6 +35,10 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
             self.avatars[username] = image
         }
         
+        var systemAvatar = JSQMessagesAvatarFactory.avatarWithImage(UIImage(named: "SHIP"),
+            diameter: UInt(self.collectionView.collectionViewLayout.incomingAvatarViewSize.width))
+        self.avatars["System"] = systemAvatar
+        
         setupUI()
         var url = "http://localhost:8080"
         url = "http://chat-simple.herokuapp.com/"
@@ -58,15 +62,46 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
                 socket.emit("addUser", message: self.user?.username)
             }
             
+            socket.on("login", executeBlock: { (response) -> Void in
+                if let json = response as? Dictionary<String, AnyObject> {
+                    if let numUsers = json["numUsers"] as? NSNumber {
+                        self.connectedToChat(numUsers)
+                    }
+                }
+            })
+            
             socket.on("newMessage", executeBlock: { (response) -> Void in
                 if let json = response as? Dictionary<String, String> {
-                    dispatch_async(dispatch_get_main_queue(), { () -> () in
-                        self.messages.append(Message(body: json["message"]!, sender: json["username"]!))
-                        self.finishReceivingMessage()
-                    })
+                    self.messages.append(Message(body: json["message"]!, sender: json["username"]!))
+                    self.finishReceivingMessage()
+                }
+            })
+            
+            socket.on("userJoined", executeBlock: { (response) -> Void in
+                if let json = response as? Dictionary<String, String> {
+                    var username = json["username"]!
+                    var numUsers = json["numUsers"]!
+                    
+                    var message = Message(body: NSString(format: "%@ has joined.", username), sender: "System")
+                    self.messages.append(message)
+                    
+                    message = Message(body: NSString(format: "Number of users online: %@", numUsers), sender: "System")
+                    self.messages.append(message)
+                    
+                    self.finishReceivingMessage()
                 }
             })
         })
+    }
+    
+    func connectedToChat(numUsers: NSNumber) {
+        var message = Message(body: "Welcome to general chat.", sender: "System")
+        self.messages.append(message)
+        
+        message = Message(body: NSString(format: "Number of users online: %@", numUsers), sender: "System")
+        self.messages.append(message)
+        
+        self.finishReceivingMessage()
     }
     
     func avatarLetters(username: String) -> String! {
@@ -131,7 +166,20 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-        return nil
+        var message = self.messages[indexPath.item]
+        
+        if message.sender() == self.sender() {
+            return nil
+        }
+        
+        if indexPath.item - 1 > 0 {
+            var previousMessage = self.messages[indexPath.item - 1]
+            if previousMessage.sender() == message.sender() {
+                return nil
+            }
+        }
+        
+        return NSAttributedString(string: message.sender())
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
@@ -144,6 +192,24 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
         var message = JSQMessage(text: text, sender: sender)
         self.messages.append(message)
         self.finishSendingMessage()
+    }
+    
+    // MARK: JSQMessagesCollectionViewFlowLayout
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        var currentMessage = self.messages[indexPath.item]
+        if currentMessage.sender() == self.sender() {
+            return 0
+        }
+        
+        if indexPath.item - 1 > 0 {
+            var previousMessage = self.messages[indexPath.item - 1]
+            if previousMessage.sender() == currentMessage.sender() {
+                return 0;
+            }
+        }
+        
+        return kJSQMessagesCollectionViewCellLabelHeightDefault;
     }
     
     // MARK: UIAlertViewDelegate
