@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window!.rootViewController = IntroViewController()
+        window!.rootViewController = ChatViewController()
         window!.backgroundColor = UIColor.whiteColor()
         window!.makeKeyAndVisible()
         

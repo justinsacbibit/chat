@@ -55,7 +55,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
     }
     
     func setupImageView() {
-        imageView = UIImageView(image: UIImage(named: "Bubble"))
+        imageView = UIImageView(image: UIImage(named: "chat-bubble"))
         imageView!.frame = CGRectMake(titleLabel!.center.x,
             titleLabel!.frame.origin.y - 90.0,
             imageView!.frame.size.width / 3.0,
@@ -145,7 +145,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
                 return
             }
             
-            let controller = ChatViewController(style: UITableViewStyle.Grouped)
+            let controller = ChatViewController()
             let user = User()
             user.username = username
             controller.user = user

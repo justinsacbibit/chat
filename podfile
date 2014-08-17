@@ -1,0 +1,13 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, "6.0"
+
+target "Chat-iOS-Swift" do
+pod 'JSQMessagesViewController'
+pod 'SIOSocket'
+end
+
+target "Chat-iOS-SwiftTests" do
+pod 'JSQMessagesViewController'
+pod 'SIOSocket'
+end
+
