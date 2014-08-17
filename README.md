@@ -4,4 +4,4 @@ chat-iOS-swift
 Barebones iOS client for chat. Written in Swift.
 
 Connects to chat-simple.herokuapp.com.
-![Screenshot](https://raw.github.com/justinsacbibit/chat-iOS-swift/master/screenshotv2.png)
+![Screenshot](https://raw.github.com/justinsacbibit/chat-iOS-swift/master/screenshotv3.png)
