@@ -8,7 +8,13 @@
 
 import UIKit
 
-class ChatViewController: JSQMessagesViewController {
+protocol ChatViewControllerDelegate {
+    func chatViewControllerDidLogout(chatViewController: ChatViewController)
+}
+
+class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
+    var delegate: ChatViewControllerDelegate?
+    
     var user: User?
     
     private var messages: Array<JSQMessageData> = []
@@ -20,16 +26,14 @@ class ChatViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.user = User()
-        var username = "justintest"
-        self.user?.username = username
-        
-        var image = JSQMessagesAvatarFactory.avatarWithUserInitials("JS",
-            backgroundColor: UIColor(white: CGFloat(0.85), alpha: 1),
-            textColor: UIColor(white: 0.6, alpha: 1),
-            font: UIFont.systemFontOfSize(14),
-            diameter: UInt(self.collectionView.collectionViewLayout.outgoingAvatarViewSize.width))
-        self.avatars[username] = image
+        if let username = self.user?.username {
+            var image = JSQMessagesAvatarFactory.avatarWithUserInitials(avatarLetters(username),
+                backgroundColor: UIColor(white: CGFloat(0.85), alpha: 1),
+                textColor: UIColor(white: 0.6, alpha: 1),
+                font: UIFont.systemFontOfSize(14),
+                diameter: UInt(self.collectionView.collectionViewLayout.outgoingAvatarViewSize.width))
+            self.avatars[username] = image
+        }
         
         setupUI()
         var url = "http://localhost:8080"
@@ -39,6 +43,11 @@ class ChatViewController: JSQMessagesViewController {
     
     func setupUI() {
         navigationItem.title = "General"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "options")
+    }
+    
+    func options() {
+        UIAlertView(title: "Log out", message: "Are you sure you want to log out?", delegate: self, cancelButtonTitle: "No", otherButtonTitles: "Yes").show()
     }
     
     func connectWebSocket(host: NSString) {
@@ -58,6 +67,11 @@ class ChatViewController: JSQMessagesViewController {
                 }
             })
         })
+    }
+    
+    func avatarLetters(username: String) -> String! {
+        let nsstring = username as NSString
+        return nsstring.substringToIndex(2)
     }
     
     // MARK: JSQMessagesCollectionViewDataSource
@@ -103,8 +117,7 @@ class ChatViewController: JSQMessagesViewController {
             return UIImageView(image: avatarImage)
         }
         
-        let nsstring = message.sender() as NSString
-        var avatarImage = JSQMessagesAvatarFactory.avatarWithUserInitials(nsstring.substringToIndex(1),
+        var avatarImage = JSQMessagesAvatarFactory.avatarWithUserInitials(avatarLetters(message.sender()),
             backgroundColor: UIColor(white: CGFloat(0.85), alpha: 1),
             textColor: UIColor(white: 0.6, alpha: 1),
             font: UIFont.systemFontOfSize(14),
@@ -131,5 +144,13 @@ class ChatViewController: JSQMessagesViewController {
         var message = JSQMessage(text: text, sender: sender)
         self.messages.append(message)
         self.finishSendingMessage()
+    }
+    
+    // MARK: UIAlertViewDelegate
+    
+    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 1 {
+            self.delegate?.chatViewControllerDidLogout(self)
+        }
     }
 }

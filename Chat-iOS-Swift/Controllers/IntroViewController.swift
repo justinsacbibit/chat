@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegate {
+class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegate, ChatViewControllerDelegate {
     var user: User?
     
     var titleLabel: UILabel?
@@ -26,6 +26,19 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
         
         user = self.loadUser()
         setupUI()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let username: AnyObject = NSUserDefaults.standardUserDefaults().objectForKey("username") {
+            var user = User()
+            user.username = username as? String
+            var controller = ChatViewController()
+            controller.user = user
+            var nav = UINavigationController(rootViewController: controller)
+            self.presentViewController(nav, animated: true, completion: nil)
+        }
     }
     
     func loadUser() -> User? {
@@ -149,12 +162,18 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
             let user = User()
             user.username = username
             controller.user = user
-            // TODO: save user
+            NSUserDefaults.standardUserDefaults().setObject(username, forKey: "username")
             self.presentViewController(UINavigationController(rootViewController: controller), animated: true, completion: nil)
         }
     }
     
     func chooseUsernameViewControllerDidCancel(chooseUsernameViewController: ChooseUsernameViewController) {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func chatViewControllerDidLogout(chatViewController: ChatViewController) {
+        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("username")
+        })
     }
 }
