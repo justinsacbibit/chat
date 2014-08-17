@@ -24,6 +24,9 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
     private var systemBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleGreenColor())
     private var avatars = [String: UIImage]()
     
+    private var typing = false
+    private var stopTypingTimer: NSTimer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,8 +74,17 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
                 }
             })
             
+            socket.on("typing", executeBlock: { (response) -> Void in
+                self.showTypingIndicator = true
+            })
+            
+            socket.on("stopTyping", executeBlock: { (response) -> Void in
+                self.showTypingIndicator = false
+            })
+            
             socket.on("newMessage", executeBlock: { (response) -> Void in
                 if let json = response as? Dictionary<String, String> {
+                    JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
                     self.messages.append(Message(body: json["message"]!, sender: json["username"]!))
                     self.finishReceivingMessage()
                 }
@@ -202,7 +214,7 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: String!, date: NSDate!) {
         self.socket?.emit("newMessage", message: text)
-        JSQSystemSoundPlayer.jsq_playMessageSentAlert()
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
         var message = JSQMessage(text: text, sender: sender)
         self.messages.append(message)
         self.finishSendingMessage()
@@ -232,5 +244,31 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
         if buttonIndex == 1 {
             self.delegate?.chatViewControllerDidLogout(self)
         }
+    }
+    
+    // MARK: UITextViewDelegate
+    
+    override func textViewDidChange(textView: UITextView!) {
+        super.textViewDidChange(textView)
+        
+        if !self.typing {
+            self.typing = true
+            self.socket?.emit("typing", message: nil)
+        }
+        
+        if self.stopTypingTimer != nil {
+            self.stopTypingTimer?.invalidate()
+            self.stopTypingTimer = nil
+        }
+        self.stopTypingTimer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "stopTyping", userInfo: nil, repeats: false)
+    }
+    
+    func stopTyping() {
+        if self.typing {
+            socket?.emit("stopTyping", message: nil)
+            self.typing = false
+        }
+        self.stopTypingTimer?.invalidate()
+        self.stopTypingTimer = nil
     }
 }
