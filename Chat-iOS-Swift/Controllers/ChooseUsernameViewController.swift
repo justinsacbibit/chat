@@ -52,11 +52,11 @@ class ChooseUsernameViewController: UITableViewController {
         delegate?.chooseUsernameViewController(self, didPickUsername: cell.textField.text)
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: TextFieldCell? = tableView.dequeueReusableCellWithIdentifier(kTextFieldCellIdentifier) as? TextFieldCell
         
         if cell == nil {
@@ -65,10 +65,10 @@ class ChooseUsernameViewController: UITableViewController {
         
         cell!.textField.placeholder = "username"
         
-        return cell
+        return cell!
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 }

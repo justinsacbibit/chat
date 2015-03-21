@@ -11,11 +11,11 @@ import UIKit
 class TextFieldCell: UITableViewCell {
     var textField = UITextField()
     
-    required init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("NSCoding not supported")
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         textField.font = FontUtil.helveticaNeueLightFont(16.0)

@@ -137,11 +137,11 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
         return self.user?.username
     }
     
-    override func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.messages.count
     }
     
-    override func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
         var message = self.messages[indexPath.item]
@@ -248,7 +248,7 @@ class ChatViewController: JSQMessagesViewController, UIAlertViewDelegate {
     
     // MARK: UITextViewDelegate
     
-    override func textViewDidChange(textView: UITextView!) {
+    override func textViewDidChange(textView: UITextView) {
         super.textViewDidChange(textView)
         
         if !self.typing {

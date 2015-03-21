@@ -117,7 +117,7 @@ class IntroViewController: UIViewController, ChooseUsernameViewControllerDelegat
         button.setTitle(title, forState: UIControlState.Normal)
         button.addTarget(self, action: selector, forControlEvents: UIControlEvents.TouchUpInside)
         button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        button.titleLabel.font = FontUtil.helveticaNeueLightFont(18.0)
+        button.titleLabel?.font = FontUtil.helveticaNeueLightFont(18.0)
         button.backgroundColor = UIColor.blackColor()
         return button
     }

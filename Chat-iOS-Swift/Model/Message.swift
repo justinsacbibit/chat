@@ -16,7 +16,7 @@ class Message: NSObject, JSQMessageData {
     init(body: String, sender: String) {
         self.body = body
         self.creator = sender
-        self.created = NSDate.date()
+        self.created = NSDate()
     }
     
     func text() -> String! {
